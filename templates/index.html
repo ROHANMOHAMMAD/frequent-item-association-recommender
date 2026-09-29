@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Product Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <a class="brand" href="/">Smart Product Recommender</a>
+    <div class="navlinks">
+        <a href="/">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/recommend">Recommendations</a>
+        <a href="/bundles">Bundles</a>
+        <a href="/rules">Rules</a>
+    </div>
+</nav>
+
+<main>
+{% block content %}
+<section class="hero">
+    <div class="eyebrow">DATA MINING PROJECT</div>
+    <h1>Frequent Item Associations</h1>
+    <p>
+        Discover purchasing patterns from transaction data and use those
+        patterns to generate product recommendations and product bundles.
+    </p>
+    <div class="hero-actions">
+        <a class="button" href="/recommend">Try Recommendation Engine</a>
+        <a class="button secondary" href="/bundles">Explore Bundles</a>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat-card">
+        <span>Transactions</span>
+        <strong>{{ transactions }}</strong>
+        <small>Retail purchase baskets</small>
+    </div>
+    <div class="stat-card">
+        <span>Frequent Itemsets</span>
+        <strong>{{ itemsets }}</strong>
+        <small>Patterns discovered by Apriori</small>
+    </div>
+    <div class="stat-card">
+        <span>Association Rules</span>
+        <strong>{{ rules }}</strong>
+        <small>Recommendation relationships</small>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow">SYSTEM PIPELINE</div>
+            <h2>From transactions to recommendations</h2>
+        </div>
+    </div>
+
+    <div class="flow">
+        <div><b>01</b><span>Transaction Data</span></div>
+        <i>→</i>
+        <div><b>02</b><span>Apriori Mining</span></div>
+        <i>→</i>
+        <div><b>03</b><span>Association Rules</span></div>
+        <i>→</i>
+        <div><b>04</b><span>Recommendations</span></div>
+        <i>→</i>
+        <div><b>05</b><span>Bundles</span></div>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow">TRANSACTION INSIGHT</div>
+            <h2>Most purchased products</h2>
+        </div>
+        <a href="/analytics">View full analytics →</a>
+    </div>
+
+    <div class="product-bars">
+    {% for p in top_products %}
+        <div class="bar-row">
+            <div class="bar-label">
+                <span>{{ p.name }}</span>
+                <span>{{ p.count }} transactions</span>
+            </div>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: {{ p.percentage }}%"></div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+{% endblock %}
+</main>
+
+<footer>
+    Frequent Item Association Mining • Apriori • Support • Confidence • Lift
+</footer>
+</body>
+</html>

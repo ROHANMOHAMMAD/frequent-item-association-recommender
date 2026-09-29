@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Product Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <a class="brand" href="/">Smart Product Recommender</a>
+    <div class="navlinks">
+        <a href="/">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/recommend">Recommendations</a>
+        <a href="/bundles">Bundles</a>
+        <a href="/rules">Rules</a>
+    </div>
+</nav>
+
+<main>
+{% block content %}
+<section class="page-header">
+    <div class="eyebrow">RECOMMENDATION ENGINE</div>
+    <h1>What should the customer buy next?</h1>
+    <p>Select a product. The system searches association rules where that
+       product is the starting item and returns individual product recommendations.</p>
+</section>
+
+<section class="panel selector-panel">
+    <form method="post">
+        <label for="product">Customer's selected product</label>
+        <div class="selector-row">
+            <select id="product" name="product" required>
+                <option value="">Choose product...</option>
+                {% for p in products %}
+                <option value="{{ p }}" {% if p == selected %}selected{% endif %}>
+                    {{ p.replace("_", " ") }}
+                </option>
+                {% endfor %}
+            </select>
+            <button class="button" type="submit">Find Recommendations</button>
+        </div>
+    </form>
+</section>
+
+{% if selected %}
+<section class="panel">
+    <div class="result-heading">
+        <div>
+            <div class="eyebrow">RESULT</div>
+            <h2>Recommended with {{ selected.replace("_", " ") }}</h2>
+        </div>
+        <span class="badge">{{ results|length }} suggestions</span>
+    </div>
+
+    {% if results %}
+    <div class="recommend-grid">
+        {% for r in results %}
+        <div class="recommend-card">
+            <div class="rec-icon">+</div>
+            <h3>{{ r.product }}</h3>
+            <p>Frequently associated with {{ selected.replace("_", " ") }}.</p>
+            <div class="metrics">
+                <div><span>Support</span><b>{{ r.support }}%</b></div>
+                <div><span>Confidence</span><b>{{ r.confidence }}%</b></div>
+                <div><span>Lift</span><b>{{ r.lift }}</b></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+        No single-product recommendation meets the current mining thresholds.
+    </div>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}
+</main>
+
+<footer>
+    Frequent Item Association Mining • Apriori • Support • Confidence • Lift
+</footer>
+</body>
+</html>

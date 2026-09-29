@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Product Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <a class="brand" href="/">Smart Product Recommender</a>
+    <div class="navlinks">
+        <a href="/">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/recommend">Recommendations</a>
+        <a href="/bundles">Bundles</a>
+        <a href="/rules">Rules</a>
+    </div>
+</nav>
+
+<main>
+{% block content %}
+<section class="page-header">
+    <div class="eyebrow">MINED RESULTS</div>
+    <h1>Association Rules</h1>
+    <p>Rules are ordered by lift and confidence. Higher lift indicates a stronger
+       association relative to independent occurrence.</p>
+</section>
+
+<section class="panel table-panel">
+<table>
+    <thead>
+        <tr>
+            <th>When customer has</th>
+            <th>Recommend</th>
+            <th>Support</th>
+            <th>Confidence</th>
+            <th>Lift</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for r in rules %}
+        <tr>
+            <td>{{ r.antecedent }}</td>
+            <td><strong>{{ r.consequent }}</strong></td>
+            <td>{{ r.support }}%</td>
+            <td>{{ r.confidence }}%</td>
+            <td><span class="lift">{{ r.lift }}</span></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</section>
+{% endblock %}
+</main>
+
+<footer>
+    Frequent Item Association Mining • Apriori • Support • Confidence • Lift
+</footer>
+</body>
+</html>

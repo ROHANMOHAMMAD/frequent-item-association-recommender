@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Product Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <a class="brand" href="/">Smart Product Recommender</a>
+    <div class="navlinks">
+        <a href="/">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/recommend">Recommendations</a>
+        <a href="/bundles">Bundles</a>
+        <a href="/rules">Rules</a>
+    </div>
+</nav>
+
+<main>
+{% block content %}
+<section class="page-header">
+    <div class="eyebrow">DATASET ANALYTICS</div>
+    <h1>Transaction Insights</h1>
+    <p>Overview of the products and frequent combinations found in the {{ transactions }}-transaction dataset.</p>
+</section>
+
+<section class="panel">
+    <div class="section-heading">
+        <div><div class="eyebrow">PRODUCT FREQUENCY</div><h2>Most purchased products</h2></div>
+    </div>
+    <div class="product-bars">
+    {% for p in products %}
+        <div class="bar-row">
+            <div class="bar-label"><span>{{ p.name }}</span><span>{{ p.count }} / {{ transactions }} ({{ p.percentage }}%)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width: {{ p.percentage }}%"></div></div>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="panel">
+    <div class="section-heading">
+        <div><div class="eyebrow">FREQUENT PATTERNS</div><h2>Top multi-product itemsets</h2></div>
+    </div>
+    <div class="itemset-list">
+    {% for i in itemsets %}
+        <div class="itemset-row">
+            <div><b>{{ i["items"] }}</b><small>{{ i["size"] }} products</small></div>
+            <strong>{{ i.support }}%</strong>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+{% endblock %}
+</main>
+
+<footer>
+    Frequent Item Association Mining • Apriori • Support • Confidence • Lift
+</footer>
+</body>
+</html>

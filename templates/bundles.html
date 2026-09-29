@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Product Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <a class="brand" href="/">Smart Product Recommender</a>
+    <div class="navlinks">
+        <a href="/">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/recommend">Recommendations</a>
+        <a href="/bundles">Bundles</a>
+        <a href="/rules">Rules</a>
+    </div>
+</nav>
+
+<main>
+{% block content %}
+<section class="page-header">
+    <div class="eyebrow">PRODUCT BUNDLING ENGINE</div>
+    <h1>Frequently purchased together</h1>
+    <p>These are multi-product combinations discovered from frequent itemsets.
+       They can be considered as potential bundle offers.</p>
+</section>
+
+<section class="bundle-grid">
+{% for b in bundles %}
+    <article class="bundle-card">
+        <div class="bundle-top">
+            <span>Bundle {{ loop.index }}</span>
+            <span>{{ b.size }} products</span>
+        </div>
+        <h2>{{ b.products }}</h2>
+        <div class="bundle-metric">
+            <span>Transaction support</span>
+            <strong>{{ b.support }}%</strong>
+        </div>
+        <div class="bundle-bar"><div style="width: {{ [b.support * 3, 100]|min }}%"></div></div>
+        <p>These products occur together frequently enough to be considered for cross-selling or a bundle offer.</p>
+    </article>
+{% endfor %}
+</section>
+{% endblock %}
+</main>
+
+<footer>
+    Frequent Item Association Mining • Apriori • Support • Confidence • Lift
+</footer>
+</body>
+</html>
